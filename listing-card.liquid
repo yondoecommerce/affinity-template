@@ -1,0 +1,55 @@
+﻿{% if listing.type == "Listing" %}
+<!-- listing card -->
+<div class="large-card-wrapper">
+    <div class="large-card">
+        <div class="card-image-wrapper">
+            <a href='{{listing.url}}'><img class="image" src='{{listing.image580Url}}' /></a>
+        </div>
+
+        <div class='card-info'>
+            <div class="title one-line"><a href='{{listing.url}}'>{{listing.title}}</a></div>
+            <div class="description two-line">{{listing.descriptionHtml}}</div>
+            <div class="two-items">
+                <div class="second">{{listing.duration}} mins</div>
+                <div class="first one-line">{{listing.price | money}}</div>
+            </div>
+
+            <div>
+                <button class='btn btn-primary btn-lg make-booking' data-listing='{{listing.id}}'>Book Now</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% else %}
+<!-- package card -->
+<div class="large-card-wrapper">
+    <div class="large-card">
+        <div class="card-image-wrapper">
+            <div class="listings">
+                {% for listing in listing.listings %}
+                <span class="listing">
+                    <a href="{{listing.Url}}" target="_blank"><img src='{{listing.image220Url}}' title="{{listing.title}}" /></a>
+                </span>
+                {% endfor %}
+            </div>
+
+            <a href='{{listing.url}}'><img class="image" src='{{listing.image580Url}}' /></a>
+        </div>
+
+        <div class='card-info'>
+            <div class="title one-line"><a href='{{listing.url}}'>{{listing.title}}</a></div>
+            <div class="description two-line">{{listing.descriptionHtml}}</div>
+            <div class="two-items">
+                <div class="second">Package of {{listing.listings.size}}</div>
+                <div class="first one-line">{{listing.price | money}}</div>
+            </div>
+
+            <div>
+                <button class='btn btn-primary btn-lg purchase-package' data-package='{{listing.id}}'>Purchase</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}

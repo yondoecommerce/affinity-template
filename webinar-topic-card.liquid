@@ -1,0 +1,28 @@
+﻿<div class="large-card-wrapper">
+    <div class='large-card'>
+        <div class='card-image-wrapper'>
+            <a href='{{ topic.url }}'>
+                {% if topic.imageSrc != null %}
+                <img class="image" src='{{ topic.imageSrc }}' />
+                {% else %}
+                <img class="image" src='https://az415508.vo.msecnd.net/static/no_image_available_580x435.png' />
+                {% endif %}
+            </a>
+        </div>
+
+        <div class='card-info'>
+            <div class="title one-line"><a href='{{ topic.url }}'>{{ topic.title }}</a></div>
+            <div class="description two-line">{{topic.descriptionHtml}}</div>
+            <div class="two-items">
+                <div class="second">
+                    {% for time in topic.upcoming %}
+                    {% if forloop.first %}
+                    <i class="fa fa-calendar-o"></i> {{ time.startTimeUtc | local_time }}
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="first one-line">{{topic.price | money}}</div>
+            </div>
+        </div>
+    </div>
+</div>
