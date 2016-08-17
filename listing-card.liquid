@@ -7,7 +7,7 @@
         </div>
 
         <div class='card-info'>
-            <div class="title one-line"><a href='{{listing.url}}'>{{listing.title}}</a></div>
+            <div class="title one-line"><a href='{{listing.url}}'>{{listing.title | escape }}</a></div>
             <div class="description two-line">{{listing.descriptionHtml}}</div>
             <div class="two-items">
                 <div class="second">{{listing.duration}} mins</div>
@@ -29,7 +29,7 @@
             <div class="listings">
                 {% for listing in listing.listings %}
                 <span class="listing">
-                    <a href="{{listing.Url}}" target="_blank"><img src='{{listing.image220Url}}' title="{{listing.title}}" /></a>
+                    <a href="{{listing.Url}}" target="_blank"><img src='{{listing.image220Url}}' title="{{listing.title | escape }}" /></a>
                 </span>
                 {% endfor %}
             </div>
@@ -38,7 +38,7 @@
         </div>
 
         <div class='card-info'>
-            <div class="title one-line"><a href='{{listing.url}}'>{{listing.title}}</a></div>
+            <div class="title one-line"><a href='{{listing.url}}'>{{listing.title | escape }}</a></div>
             <div class="description two-line">{{listing.descriptionHtml}}</div>
             <div class="two-items">
                 <div class="second">Package of {{listing.listings.size}}</div>
