@@ -1,0 +1,49 @@
+﻿<div class="large-card-wrapper">
+    <div class='large-card'>
+        <div class='card-image-wrapper'>
+            <div class="videos">
+                {% for item in playlist.playlistItems %}
+                {% if item.video %}
+                <span class="listing">
+                    <a href="{{item.video.Url}}" target="_blank"><img src='{{item.video.thumbnail220Url}}' title="{{item.video.title | escape }}" /></a>
+                </span>
+                {% endif %}
+                {% endfor %}
+            </div>
+
+            <a href='{{ playlist.url }}'>
+                <img class="image" src='{{ playlist.image720Url }}' />
+            </a>
+        </div>
+
+        <div class='card-info'>
+            <div class="title one-line"><a href='{{ playlist.url }}'>{{ playlist.title | escape }}</a></div>
+            <div class="description two-line">{{playlist.descriptionHtml}}</div>
+            <div class="two-items">
+                <div class="second">
+                    {{playlist.videoCount}} Video{% if playlist.videoCount > 1 %}s{% endif %}
+                </div>
+                <div class="first one-line" style="height: 36px;">
+                    {% if playlist.rentalAvailable %}
+                    Rent for {{playlist.rentalPrice | money}} {% if playlist.rentalPrice > 0 %}/ {{ playlist.rentalPeriod | period }} {% endif %}
+                    {% endif %}
+
+                    {% if playlist.purchaseAvailable %}
+                    {% if playlist.rentalAvailable %}<br /> {% endif %}
+                    Buy  for {{playlist.purchasePrice | money}}
+                    {% endif %}
+                </div>
+            </div>
+
+            <!--<div>
+                {% if playlist.rentalAvailable %}
+                <button class='btn btn-primary btn-lg rent-playlist' data-playlist='{{listing.id}}'>Rent</button>
+                {% endif %}
+
+                {% if playlist.purchaseAvailable %}
+                <button class='btn btn-primary btn-lg purchase-playlist' data-playlist='{{listing.id}}'>Purchase</button>
+                {% endif %}
+            </div>-->
+        </div>
+    </div>
+</div>

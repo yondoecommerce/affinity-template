@@ -91,6 +91,16 @@
                 </div>
             </div>
             {% endif %}
+
+            {% if section.id == "playlist" %}
+            <div class="col-md-12 ">
+                <div class="playlist-tab">
+                    {% for playlist in playlists %}
+                    {% include playlist-card %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
         </div>
         {% endfor %}
                 
