@@ -1,7 +1,7 @@
 ﻿<div class="large-card-wrapper">
     <div class='large-card'>
         <div class='card-image-wrapper'>
-            <div class="videos">
+            <div class="listings">
                 {% for item in playlist.playlistItems %}
                 {% if item.video %}
                 <span class="listing">
@@ -35,15 +35,10 @@
                 </div>
             </div>
 
-            <!--<div>
-                {% if playlist.rentalAvailable %}
-                <button class='btn btn-primary btn-lg rent-playlist' data-playlist='{{listing.id}}'>Rent</button>
-                {% endif %}
 
-                {% if playlist.purchaseAvailable %}
-                <button class='btn btn-primary btn-lg purchase-playlist' data-playlist='{{listing.id}}'>Purchase</button>
-                {% endif %}
-            </div>-->
+            <div>
+                <a class='btn btn-primary' href='{{ playlist.url }}'>View Details</a>
+            </div>
         </div>
     </div>
 </div>
