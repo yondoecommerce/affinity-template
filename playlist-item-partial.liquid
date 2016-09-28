@@ -28,7 +28,28 @@
             </div>
         </a>
         {% else %}
-            {% if item.video.assets == null or video.published == false %}
+            {% if item.video.assets != null and video.published or item.isPreview %}
+            <a class="video" onclick="return videoModal.showModal({{item.video.id}});" id="playlist-video-{{item.video.id}}">
+                <div class="video-details">
+                    {% if item.isPreview == true %}
+                    <span class="label label-success">Preview</span>
+                    {% endif %}
+                    <span class="duration">{{ item.video.duration | duration_to_string}}</span>
+                </div>
+
+                <div class="play-icon">
+                    <i class="fa"></i>
+                </div>
+
+                <div class="video-thumb">
+                    <img src="{{item.video.thumbnail220Url}}" />
+                </div>
+
+                <div class="video-title one-line">
+                    {{item.video.title}}
+                </div>
+            </a>
+            {% else %}    
             <a class="video" data-toggle="collapse" href="#playlist-video-{{item.video.id}}-details" id="playlist-video-{{item.video.id}}">
                 <div class="video-details">
                     {% if item.isPreview == true %}
@@ -63,28 +84,6 @@
                 </div>
                 {% endif %}
             </div>
-    
-            {% else %}
-            <a class="video" onclick="return videoModal.showModal({{item.video.id}});" id="playlist-video-{{item.video.id}}">
-                <div class="video-details">
-                    {% if item.isPreview == true %}
-                    <span class="label label-success">Preview</span>
-                    {% endif %}
-                    <span class="duration">{{ item.video.duration | duration_to_string}}</span>
-                </div>
-
-                <div class="play-icon">
-                    <i class="fa"></i>
-                </div>
-
-                <div class="video-thumb">
-                    <img src="{{item.video.thumbnail220Url}}" />
-                </div>
-
-                <div class="video-title one-line">
-                    {{item.video.title}}
-                </div>
-            </a>
             {% endif %}
         {% endif %}
 
