@@ -5,7 +5,7 @@
                 {% for item in playlist.playlistItems %}
                 {% if item.video %}
                 <span class="listing">
-                    <a href="{{item.video.Url}}" target="_blank"><img src='{{item.video.thumbnail220Url}}' title="{{item.video.title | escape }}" /></a>
+                    <a href="{{item.video.Url}}" target="_blank"><img src='{{item.video.thumbnail220Url | img_placeholder_tag}}' title="{{item.video.title | escape }}" /></a>
                 </span>
                 {% endif %}
                 {% endfor %}
