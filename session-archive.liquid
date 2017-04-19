@@ -2,7 +2,6 @@
 {% block title %}Archive - {{ store.name }}{% endblock %}
 
 {% block head %}
-{{ 'plugins/plugins-bundle.min.css' | asset_url | stylesheet_tag }}
 {{ templatePage | meta_tags }}
 {% endblock %}
 {% block content %}
@@ -16,10 +15,8 @@
 
 <div class="row">
     <div class="col-md-8">
-        <video id="video-player" class="video-js vjs-default-skin" controls preload="none" width="auto" height="auto" data-setup="{}">
-            <source src="{{ archive.downloadUrl }}" type='video/mp4'>
-            <p>Video Playback Not Supported</p>
-        </video>
+        {% assign videoUrl = archive.downloadUrl %}
+        {% include video-player%}
     </div>
 
     <div class="col-md-4">
@@ -34,9 +31,6 @@
 {% endblock %}
 
 {% block scripts %}
-{{ 'plugins/plugins-bundle.min.js' | asset_url | script_tag }}
 
-<script>
-    var videoPlayer = videojs('#video-player');
-</script>
+{% include video-player-scripts%}
 {% endblock %}

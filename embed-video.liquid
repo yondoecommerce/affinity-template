@@ -8,58 +8,12 @@
         
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
-    {{ 'plugins/plugins-bundle.min.css' | asset_url | stylesheet_tag }}
+    {{ '/Content/shared/plugins/plugins-bundle.min.css' | stylesheet_tag }}
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet">
     
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 
-    <style>
-    .video-js {
-        overflow: hidden;
-    }
-    
-    .video-js .logo {
-        position: absolute;
-        display: block;
-        height: 350px;
-        width: 5px;
-        top: 0;
-        right: 1px;
-        z-index: 1002;
-    }
-
-    .video-js .vjs-watermark {
-        width: 100px;
-        opacity: 0.5;
-        z-index: 0 !important;
-    }    
-    
-    .video-js .text-watermark {
-        position: absolute;
-        top: 0;
-        right: 0;
-        background-color: @navbar-default-bg;
-        text-align:center;
-        padding: 5px;
-        color: @navbar-default-color;
-        opacity: 0.5;
-        max-width: 200px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        font-size:15px;
-    }
-
-    .video-js .vjs-embed-window {
-        left: 10%;
-        width: 80%;
-        height: auto;
-    }
-
-    .video-js .vjs-embed-window textarea{
-        width: 96%;
-    }
-                
+    <style>                    
     .preview-thumbnail{  
         background-image: url('{{video.thumbnail720Url}}');      
         position: absolute;
@@ -94,7 +48,7 @@
         z-index: 3;
         text-align: center;
         color: #000;
-        overflow-y: auto;
+        overflow-y: hidden;
         overflow-x: hidden;
     }
 
@@ -110,7 +64,14 @@
         width: 100%;
     }
 
+    .modal-body.video-purchase-wrapper{
+        display: table;
+        height: 100%;
+        width: 100%;
+    }
+
     .video-purchase {
+        padding: 10px;
         vertical-align: middle;
         display: table-cell;
     }
@@ -187,55 +148,73 @@
 
     </style>
 </head>
-<body onload="resize()" style="margin:0">
+<body style="margin:0">
+    {% if error != null %}    
     <div style="position: absolute;top: 0;left: 0;bottom: 0;right: 0;display: table;height: 100%;width: 100%;overflow: hidden;">
-        {% if error != null %}
         <div style="vertical-align: middle; display: table-cell; text-align:center; background-color:black; color:white;">
             <p>
                 {{error}}
             </p>
         </div>
-        {% else %}
-        <div class="video-player" style="vertical-align: middle; display: table-cell;">
-            {% include video-player%}
-        </div>
-        {% endif %}
     </div>
+    {% else %}
+    <div class="video-player-wrapper" style="position: absolute; top: 0;left: 0;bottom: 0;right: 0; overflow: hidden;">
+        {% include video-player%}
+    </div>
+    {% endif %}
+
     <!-- scripts -->
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 
     {% if error == null %}
     {% include video-player-scripts %}
-    <script>
-       
-
-        function resize() {
-            // maintains aspect ratio of video
-            if ($("#video-player").length > 0) {
-                var height = window.innerHeight;
-                //$(this).css("height", height * ratioW);
-                document.getElementById('video-player').setAttribute("style", "height:" + height + "px");
+    <script>      
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+        
+        function isExternal() {
+            if (getParameterByName("external") == null || getParameterByName("external") == "" || getParameterByName("external") == 1) {
+                return true;
             }
+            return false;
         }
 
-        window.onresize = function (event) {
-            resize();
-        };
-                
+        var referralUrl = (document.referrer == null || document.referrer == "" ? window.location.href : document.referrer);
+                        
         $(".video-player").on('click', ".video-rental", function (event) {
             var videoId = $(".video-rental").attr("data-video");
-            window.open("/cart/addvideo?videoid=" + videoId, "_blank");
+            
+            if (isExternal()) {
+                var url = "/cart/add/video/" + videoId + "?referralUrl=" + referralUrl;
+                window.open(url, "_blank");
+            }
+            else {
+                parent.postMessage("videorent:" + videoId, "*");
+            }
+            
             event.stopPropagation();
+            return false;
         });
 
         $(".video-player").on('click', ".video-subscription", function (event) {
-            window.open("/cart/addvideo?subscribe=1", "_blank");
+            if (isExternal()) {
+                var url = "/cart/add/subscription" + "?referralUrl=" + referralUrl;
+                window.open(url, "_blank");
+            }
+            else {
+                parent.postMessage("videosubscription", "*");
+            }
             event.stopPropagation();
+            return false;
         });
 
         $("#video-player-thumb").click(function (event) {
             // prevent to open boostrap modal
-            event.stopPropagation();
+            //event.stopPropagation();
 
             var endFrame = $('#end-frame').html();
             $('.video-player').append(endFrame);

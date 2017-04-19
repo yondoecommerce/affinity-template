@@ -1,8 +1,5 @@
 ﻿{% extends base %}
 {% block title %}Recording - {{ store.name }}{% endblock %}
-{% block head %}
-{{ 'plugins/plugins-bundle.min.css' | asset_url | stylesheet_tag }}
-{% endblock %}
 {% block content %}
 
 <div class="row">
@@ -17,7 +14,7 @@
         <h4>Recording details.</h4>
         {% if recording.listing != null %}
         <p><strong>Session:</strong> <a href="{{ recording.listing.url }}" target="_blank">{{ recording.listing.title | escape }}</a></p>
-        <p><strong>With:</strong> {{ recording.listing.teamMember.fullname }}</p>
+        <p><strong>With:</strong> {{ recording.listing.teamMember.fullname | escape }}</p>
         {% endif %}
         {% if recording.webinar != null %}
         <p><strong>Session:</strong> <a href="{{ recording.webinar.topic.url }}" target="_blank">{{ recording.webinar.topic.title | escape }}</a></p>
