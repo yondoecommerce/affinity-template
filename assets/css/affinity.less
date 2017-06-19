@@ -61,7 +61,12 @@ h3{
     }
            
     .nav > li > a { 
+        max-width: 120px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         background-color: @navbar-default-bg;
+
         &:hover,
         &:focus {
         background-color: @navbar-default-bg;
@@ -570,6 +575,8 @@ input.ng-invalid-required, select.ng-invalid-required, .well.ng-required {
             font-size: 13px;
             color: @text-color-dark;
             margin-bottom: 10px;
+            display: inline-block;
+            width: 100%;
 
             .second{
                 float: right;
@@ -1647,3 +1654,4 @@ input.ng-invalid-required, select.ng-invalid-required, .well.ng-required {
 
     
 @import "playlist.less";
+@import "program.less";

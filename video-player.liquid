@@ -43,7 +43,7 @@
             <div class="panel">
                 {% if video.availableToWatch and video.callToActionUrl %}
                 <div style="height:100%;">
-                    <iframe id="cta-iframe" src="{{video.callToActionUrl}}" style="padding-bottom: 38px;height:100%;position: absolute;left: 0;" width="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                    <iframe id="cta-iframe" src="{{video.callToActionUrl}}" style="padding-bottom: 27px;height:100%;position: absolute;left: 0;" width="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                 </div>
                 {% else %}
                 {% include video-purchase-partial %}

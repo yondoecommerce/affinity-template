@@ -1,0 +1,122 @@
+﻿{% extends base %}
+{% block title %}{{ program.title | escape }} - {{ store.name }}{% endblock %}
+{% block head %}
+    {{ templatePage | meta_tags }}
+{% endblock %}
+{% block content %}
+
+<div class="row background">
+    <!-- Image and main body -->
+    <div class="col-md-5">
+        <div class="left-panel">
+            <div id="no-session-available" {% if program.upcoming.size > 0 %}style="display:none;"{% endif %}>
+                <h2 class="title">No Session Available</h2>                
+            </div>
+
+            <div id="form-wrapper" {% if program.upcoming.size == 0 %}style="display:none;"{% endif %}>
+                <h2 class="title">{{program.titleText}}</h2>
+
+                <div class="row">
+                    <div class="col-sm-offset-2 col-sm-8">
+                        {% if program.pricingAvailable and program.price > 0 %}
+                        <a title="Click to register" class="btn btn-primary btn-lg purchase-program register-button" href="">{{program.buttonText}} - {{ program.price | money }}</a>
+                        {% else %}
+                        <form id="register-me">
+                            <div class="form-group">
+                                <input type="text" name="FullName" class="form-control" placeholder="Full Name" required {% if session.isLoggedIn %}value="{{session.firstName}} {{session.lastName}}" {% endif %}>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" name="Email" class="form-control" placeholder="Email" required {% if session.isLoggedIn %}value="{{session.email}}" {% endif %}>
+                            </div>
+
+                            <button type="submit" title="Click to register" class="btn btn-primary btn-lg register-button">{{program.buttonText}}</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if program.playbackMode != 'OnDemand' %}
+                <div style="margin-top:20px;">
+                    {% for session in program.upcoming limit:1 %}
+                    <div class="item" style="clear:both;">
+                        <p>
+                            <div class="start-time" id="start-time">{{ session.startTimeUtc | local_time:'dddd, MMMM Do [at] h:mm A' }}</div>
+                        </p>
+
+                        {% if program.upcoming.size > 1 %}
+                        <p>
+                            <div class="another-time register-program" data-program="{{program.id}}">Choose Another TIme</div>
+                        </p>
+                        {% endif %}
+
+                        <p class="timezone">Times are displayed in your local timezone</p>
+
+                        <div class="countdown" id="counter">
+                            <div class="time-wrapper"><div class="days">0</div><div>Days</div></div>
+                            <div class="time-wrapper"><div class="hours">0</div><div>Hours</div></div>
+                            <div class="time-wrapper"><div class="minutes">0</div><div>Minutes</div></div>
+                            <div class="time-wrapper"><div class="seconds">0</div><div>Seconds</div></div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if program.playbackMode == 'OnDemand' %}
+                <div id="viewing-time" class="item" style="display:none;">
+                    <h3>Upcoming Sessions</h3>
+
+                    {% for session in program.upcoming %}
+                    <p>{{ session.startTimeUtc | local_time:'dddd, MMMM Do [at] h:mm A' }} - {{ session.endTimeUtc | local_time_format:'h:mm A' }}</p>
+                    {% endfor %}
+
+                    <p class="timezone">Times are displayed in your local timezone</p>
+                </div>
+
+                <div id="on-demand-now" style="display:none;">
+                    <h3>On-demand now</h3>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Right booking info panel -->
+    <div class="col-md-7">
+        <div class="right-panel">
+            <h1 class="title-section"><span class="title">{{ program.title | escape }}</span></h1>
+
+            {% if program.descriptionHtml %}
+            <div class="description">
+                {{ program.descriptionHtml }}
+            </div>
+            {% endif %}
+
+            {% if program.image720Url != null %}
+            <div class="image-warpper">{{ program.image720Url | img_tag: program.title, 'img-responsive img-thumbnail'}}</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-success">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <h2>Thank you</h2>
+                
+                <div class="message"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+	
+{% block scripts %}
+{{ '/Content/shared/plugins/plugins-bundle.min.js' | script_tag }}
+{{ 'plugins/countdownjs/countdown.js' | asset_url | script_tag }}
+{{ 'plugins/moment-countdown/moment-countdown.js' | asset_url | script_tag }}
+{% include program-scripts %}
+{% endblock %}
+

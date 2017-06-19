@@ -5,7 +5,11 @@
                 {% for item in playlist.playlistItems %}
                 {% if item.video %}
                 <span class="listing playlist">
+                    {% if item.video.published %}                    
                     <a href="{{item.video.Url}}" target="_blank"><img src='{{item.video.thumbnail220Url | img_placeholder_tag}}' title="{{item.video.title | escape }}" /></a>
+                    {% else %}
+                    <img src='{{item.video.thumbnail220Url | img_placeholder_tag}}' title="{{item.video.title | escape }}" />
+                    {% endif %}
                 </span>
                 {% endif %}
                 {% endfor %}

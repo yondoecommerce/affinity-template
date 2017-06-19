@@ -68,6 +68,20 @@
                     </div>
                 </li>
                 {% endif %}
+
+                <!-- programs -->
+                {% if booking.program != null %}
+                <li class="list-group-item">
+                    {% if booking.program.image220Url != null %}
+                    {{ booking.program.image220Url | img_tag:booking.program.title, 'listing-thumb pull-left' }}
+                    {% endif %}
+                    <div>{{ store.programSettings.noun }}: {{ booking.startTimeUTC | local_time }} </div>
+                    <div><a href="{{ booking.program.url }}">{{ booking.program.title | escape }}</a></div>
+                    <div class="button-group">
+                        <a class="btn btn-default btn-xs" href="{{ booking.sessionUrl }}"><i class="fa fa-comment-o"></i> Join Session</a>
+                    </div>
+                </li>
+                {% endif %}
                 {% endfor %}
 
                 {% if upcomingBookings == empty %}
@@ -137,7 +151,7 @@
                 {% endif %}
             </ul>
         </div>
-
+        
         <!-- subscriptions -->
         {% if subscription %}
         <div class="panel panel-default">
