@@ -574,6 +574,10 @@ input.ng-invalid-required, select.ng-invalid-required, .well.ng-required {
             font-weight: @font-light;
             margin-bottom:10px;
             height: 38px;
+
+            p{
+                margin: 0;
+            }
         }
 
         .two-items {
@@ -1174,7 +1178,11 @@ input.ng-invalid-required, select.ng-invalid-required, .well.ng-required {
     position: relative;
     
     .video-js{
-        background-color: #fff;
+        background-color: transparent;
+        
+        .img-thumbnail{
+            background-color: transparent;
+        }
     }
     
     .video-js .logo {
